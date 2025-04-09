@@ -14,7 +14,7 @@ app.use(cookieParser()); // Add cookie-parser middleware
 // Configure CORS to allow credentials
 app.use(
   cors({
-    origin: "http://localhost:5173", // Your frontend URL
+    origin: ["http://localhost:5173"], // Allow both frontend URLs
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
