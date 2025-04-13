@@ -13,6 +13,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import translations from "@/assets/languages/index";
 import { formatPost, handleImageChange, handlePostSubmit, handleLikePost, handleAddComment, api } from "@/controllers";
+import Footer from "@/components/layout/Footer";
 
 // Static Data
 const trendingTopics = [
@@ -403,6 +404,9 @@ const CommunityPage = () => {
             </Card>
           </div>
         </div>
+      </div>
+      <div className="mt-8">
+        <Footer />
       </div>
     </Layout>
   );

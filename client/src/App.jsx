@@ -6,6 +6,7 @@ import SignUppage from "./pages/SignUppage.jsx";
 import LoginPage from "./pages/LoginPage";
 
 
+
 function App() {
   return (
     <Router>
@@ -21,7 +22,9 @@ function App() {
           } 
         />
       </Routes>
+     
     </Router>
+     
   );
 }
 
