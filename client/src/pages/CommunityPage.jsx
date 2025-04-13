@@ -202,7 +202,7 @@ const CommunityPage = () => {
                     <Button 
                     onClick={handlePostSubmission}
                     disabled={loading || (!newPost.trim() && !imageFile)}
-                    className="w-full sm:w-auto flex-1"
+                    className="w-full sm:w-auto md:ml-115"
                   >
                     <Send className="h-4 w-4 mr-2" />
                     {loading ? "Posting..." : t.postButton || "Post"}
