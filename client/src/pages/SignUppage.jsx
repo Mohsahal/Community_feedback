@@ -75,17 +75,17 @@ const SignUppage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-farm-green-50">
       <ToastContainer position="top-right" autoClose={3000} />
       <div className="bg-white p-8 rounded-2xl shadow-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center mb-6">Create Account</h2>
+        <h2 className="text-2xl font-bold text-center mb-6 text-farm-green-500">Create Account</h2>
         <form onSubmit={handleSubmit}>
           {/* Full Name */}
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Full Name</label>
+            <label className="block text-sm font-medium mb-1 text-farm-green-700">Full Name</label>
             <input
               type="text"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-farm-green-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green-500"
               value={formData.name}
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
@@ -99,12 +99,12 @@ const SignUppage = () => {
 
           {/* Email */}
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">
+            <label className="block text-sm font-medium mb-1 text-farm-green-700">
               Email address
             </label>
             <input
               type="email"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-farm-green-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green-500"
               value={formData.email}
               onChange={(e) =>
                 setFormData({ ...formData, email: e.target.value })
@@ -118,10 +118,10 @@ const SignUppage = () => {
 
           {/* Password */}
           <div className="mb-4">
-            <label className="block text-sm font-medium mb-1">Password</label>
+            <label className="block text-sm font-medium mb-1 text-farm-green-700">Password</label>
             <input
               type="password"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-farm-green-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green-500"
               value={formData.password}
               onChange={(e) =>
                 setFormData({ ...formData, password: e.target.value })
@@ -135,12 +135,12 @@ const SignUppage = () => {
 
           {/* Confirm Password */}
           <div className="mb-6">
-            <label className="block text-sm font-medium mb-1">
+            <label className="block text-sm font-medium mb-1 text-farm-green-700">
               Confirm Password
             </label>
             <input
               type="password"
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-farm-green-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-farm-green-500"
               value={formData.confirmPassword}
               onChange={(e) =>
                 setFormData({ ...formData, confirmPassword: e.target.value })
@@ -156,14 +156,14 @@ const SignUppage = () => {
 
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-lg transition"
+            className="w-full bg-farm-green-500 hover:bg-farm-green-600 text-white font-semibold py-2 rounded-lg transition"
           >
             Register
           </button>
 
-          <p className="text-center text-sm mt-4">
+          <p className="text-center text-sm mt-4 text-farm-green-700">
             Already have an account?{" "}
-            <Link to="/login" className="text-blue-600 hover:underline">
+            <Link to="/login" className="text-farm-green-500 hover:text-farm-green-600 hover:underline">
               Login
             </Link>
           </p>

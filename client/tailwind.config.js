@@ -1,4 +1,5 @@
-/** @type {import('tailwindcss').Config} */
+const plugin = require("tailwindcss-animate");
+
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -7,6 +8,7 @@ module.exports = {
     "./app/**/*.{js,jsx,ts,tsx}",
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
+  prefix: "",
   theme: {
     container: {
       center: true,
@@ -17,105 +19,49 @@ module.exports = {
     },
     extend: {
       colors: {
-        // Primary Colors
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
         primary: {
-          50: "#f0fdf4",
-          100: "#dcfce7",
-          200: "#bbf7d0",
-          300: "#86efac",
-          400: "#4ade80",
-          500: "#22c55e", // Main primary color
-          600: "#16a34a",
-          700: "#15803d",
-          800: "#166534",
-          900: "#14532d",
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
         },
-        
-        // Secondary Colors
         secondary: {
-          50: "#f8fafc",
-          100: "#f1f5f9",
-          200: "#e2e8f0",
-          300: "#cbd5e1",
-          400: "#94a3b8",
-          500: "#64748b",
-          600: "#475569",
-          700: "#334155",
-          800: "#1e293b",
-          900: "#0f172a",
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
         },
-
-        // Accent Colors
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
         accent: {
-          50: "#fff7ed",
-          100: "#ffedd5",
-          200: "#fed7aa",
-          300: "#fdba74",
-          400: "#fb923c",
-          500: "#f97316",
-          600: "#ea580c",
-          700: "#c2410c",
-          800: "#9a3412",
-          900: "#7c2d12",
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
-
-        // Success Colors
-        success: {
-          50: "#f0fdf4",
-          100: "#dcfce7",
-          200: "#bbf7d0",
-          300: "#86efac",
-          400: "#4ade80",
-          500: "#22c55e",
-          600: "#16a34a",
-          700: "#15803d",
-          800: "#166534",
-          900: "#14532d",
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
         },
-
-        // Warning Colors
-        warning: {
-          50: "#fffbeb",
-          100: "#fef3c7",
-          200: "#fde68a",
-          300: "#fcd34d",
-          400: "#fbbf24",
-          500: "#f59e0b",
-          600: "#d97706",
-          700: "#b45309",
-          800: "#92400e",
-          900: "#78350f",
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
         },
-
-        // Error Colors
-        error: {
-          50: "#fef2f2",
-          100: "#fee2e2",
-          200: "#fecaca",
-          300: "#fca5a5",
-          400: "#f87171",
-          500: "#ef4444",
-          600: "#dc2626",
-          700: "#b91c1c",
-          800: "#991b1b",
-          900: "#7f1d1d",
+        sidebar: {
+          DEFAULT: "hsl(var(--sidebar-background))",
+          foreground: "hsl(var(--sidebar-foreground))",
+          primary: "hsl(var(--sidebar-primary))",
+          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
+          accent: "hsl(var(--sidebar-accent))",
+          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
+          border: "hsl(var(--sidebar-border))",
+          ring: "hsl(var(--sidebar-ring))",
         },
-
-        // Neutral Colors
-        neutral: {
-          50: "#fafafa",
-          100: "#f5f5f5",
-          200: "#e5e5e5",
-          300: "#d4d4d4",
-          400: "#a3a3a3",
-          500: "#737373",
-          600: "#525252",
-          700: "#404040",
-          800: "#262626",
-          900: "#171717",
-        },
-
-        // Farm Theme Colors
         farm: {
           green: {
             50: "#f0fdf4",
@@ -123,44 +69,40 @@ module.exports = {
             200: "#bbf7d0",
             300: "#86efac",
             400: "#4ade80",
-            500: "#22c55e", // Main farm green
-            600: "#16a34a",
-            700: "#15803d",
-            800: "#166534",
-            900: "#14532d",
+            500: "#0d6300",
+            600: "#0a4d00",
+            700: "#083700",
+            800: "#052100",
+            900: "#031b00",
           },
           brown: {
-            50: "#fafaf9",
-            100: "#f5f5f4",
-            200: "#e7e5e4",
-            300: "#d6d3d1",
-            400: "#a8a29e",
-            500: "#78716c",
-            600: "#57534e",
-            700: "#44403c",
-            800: "#292524",
-            900: "#1c1917",
-          },
-          yellow: {
-            50: "#fefce8",
-            100: "#fef9c3",
-            200: "#fef08a",
-            300: "#fde047",
-            400: "#facc15",
-            500: "#eab308",
-            600: "#ca8a04",
-            700: "#a16207",
-            800: "#854d0e",
-            900: "#713f12",
+            50: "#fdf4ed",
+            100: "#fbe4d5",
+            200: "#f8c9ab",
+            300: "#f4a77d",
+            400: "#f08a5a",
+            500: "#ec6c37",
+            600: "#e84f14",
+            700: "#c43d0a",
+            800: "#a03208",
+            900: "#7c2706",
           },
         },
-
-        // Semantic Colors
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        lime: {
+          50: "#f7fee7",
+          100: "#ecfccb",
+          200: "#d9f99d",
+          300: "#bef264",
+          400: "#a3e635",
+          500: "#84cc16",
+          600: "#65a30d",
+          700: "#4d7c0f",
+          800: "#3f6212",
+          900: "#365314",
+        },
+      },
+      borderColor: {
+        DEFAULT: "hsl(var(--border))",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -176,12 +118,22 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "fade-in": {
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "fade-out": {
+          "0%": { opacity: "1", transform: "translateY(0)" },
+          "100%": { opacity: "0", transform: "translateY(10px)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in": "fade-in 0.5s ease-out",
+        "fade-out": "fade-out 0.5s ease-out",
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
-} 
+  plugins: [plugin],
+}; 

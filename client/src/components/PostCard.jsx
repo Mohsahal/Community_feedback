@@ -1,7 +1,3 @@
-
-
-
-
 // PostCard.jsx
 import React from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
@@ -13,17 +9,21 @@ import { Badge } from "@/components/ui/badge";
 
 const PostCard = ({ post, onLike, onComment, isLiked, commentText, setCommentText }) => {
   return (
-    <Card className="overflow-hidden hover:shadow-md transition-all duration-300 animate-fade-in">
+    <Card className="overflow-hidden border-slate-200 hover:shadow-md transition-all duration-300 animate-fade-in">
       <CardHeader className="pb-3">
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center">
           <div className="flex items-center gap-3 group">
-            <Avatar className="group-hover:scale-110 transition-transform duration-300">
+            <Avatar className="group-hover:scale-110 transition-transform duration-300 border-2 border-slate-200">
               <AvatarImage src={post.author.avatar || "https://github.com/shadcn.png"} />
-              <AvatarFallback>{post.author.name?.charAt(0) || "U"}</AvatarFallback>
+              <AvatarFallback className="bg-farm-green-100 text-farm-green-600">
+                {post.author.name?.charAt(0) || "U"}
+              </AvatarFallback>
             </Avatar>
             <div>
-              <p className="font-medium group-hover:text-blue-600 transition-colors">{post.author.name}</p>
-              <div className="flex items-center gap-1 text-xs text-muted-foreground">
+              <p className="font-medium text-farm-green-600 group-hover:text-farm-green-700 transition-colors">
+                {post.author.name}
+              </p>
+              <div className="flex items-center gap-1 text-xs text-farm-green-700/80">
                 {post.location && (
                   <>
                     <MapPin className="h-3 w-3" /> {post.location} •
@@ -36,18 +36,22 @@ const PostCard = ({ post, onLike, onComment, isLiked, commentText, setCommentTex
         </div>
       </CardHeader>
       <CardContent className="pb-3">
-        <p className="mb-3">{post.content}</p>
+        <p className="mb-3 text-farm-green-700">{post.content}</p>
         {post.tags && post.tags.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-3">
             {post.tags.map((tag) => (
-              <Badge key={tag} variant="outline" className="hover:bg-blue-50 cursor-pointer transition-colors">
+              <Badge 
+                key={tag} 
+                variant="outline" 
+                className="border-slate-200 text-farm-green-600 hover:bg-farm-green-50 cursor-pointer transition-colors"
+              >
                 #{tag}
               </Badge>
             ))}
           </div>
         )}
         {post.imageUrl && (
-          <div className="mt-3 mb-3 rounded-md overflow-hidden">
+          <div className="mt-3 mb-3 rounded-md overflow-hidden border border-slate-200">
             <img
               src={post.imageUrl}
               alt="Post content"
@@ -56,37 +60,53 @@ const PostCard = ({ post, onLike, onComment, isLiked, commentText, setCommentTex
           </div>
         )}
       </CardContent>
-      <CardFooter className="border-t pt-3 flex flex-col gap-3">
+      <CardFooter className="border-t border-slate-200 pt-3 flex flex-col gap-3">
         <div className="flex gap-4">
           <Button
             variant="ghost"
             size="sm"
-            className={`flex items-center gap-1 ${isLiked ? "text-red-500" : "text-muted-foreground"} hover:text-red-500 transition-colors`}
+            className={`flex items-center gap-1 ${isLiked ? "text-red-500" : "text-farm-green-700/80"} hover:text-red-500 transition-colors`}
             onClick={onLike}
           >
             <Heart className={`h-4 w-4 ${isLiked ? "fill-red-500" : ""} transition-transform hover:scale-125`} />
             {post.likes.length}
           </Button>
-          <Button variant="ghost" size="sm" className="flex items-center gap-1 text-muted-foreground hover:text-blue-600 transition-colors">
-            <MessageCircle className="h-4 w-4 transition-transform hover:scale-125" /> {post.comments.length}
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="flex items-center gap-1 text-farm-green-700/80 hover:text-farm-green-600 transition-colors"
+          >
+            <MessageCircle className="h-4 w-4 transition-transform hover:scale-125" /> 
+            {post.comments.length}
           </Button>
-          <Button variant="ghost" size="sm" className="flex items-center gap-1 text-muted-foreground hover:text-blue-600 transition-colors">
-            <Share2 className="h-4 w-4 transition-transform hover:scale-125" /> Share
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="flex items-center gap-1 text-farm-green-700/80 hover:text-farm-green-600 transition-colors"
+          >
+            <Share2 className="h-4 w-4 transition-transform hover:scale-125" /> 
+            Share
           </Button>
         </div>
         {post.comments.length > 0 && (
           <div className="mt-2 space-y-2">
-            <h4 className="text-sm font-medium">Comments</h4>
+            <h4 className="text-sm font-medium text-farm-green-600">Comments</h4>
             {post.comments.map((comment, index) => (
               <div key={index} className="flex gap-2 items-start">
-                <Avatar className="h-6 w-6">
+                <Avatar className="h-6 w-6 border border-slate-200">
                   <AvatarImage src={comment.user?.avatar || "https://github.com/shadcn.png"} />
-                  <AvatarFallback>{comment.user?.name?.charAt(0) || "U"}</AvatarFallback>
+                  <AvatarFallback className="bg-farm-green-100 text-farm-green-600 text-xs">
+                    {comment.user?.name?.charAt(0) || "U"}
+                  </AvatarFallback>
                 </Avatar>
-                <div className="bg-gray-50 p-2 rounded-md flex-1">
-                  <p className="text-sm font-medium">{comment.user?.name || "Unknown User"}</p>
-                  <p className="text-sm">{comment.text}</p>
-                  <p className="text-xs text-muted-foreground">{new Date(comment.createdAt).toLocaleString()}</p>
+                <div className="bg-farm-green-50 p-2 rounded-md flex-1">
+                  <p className="text-sm font-medium text-farm-green-600">
+                    {comment.user?.name || "Unknown User"}
+                  </p>
+                  <p className="text-sm text-farm-green-700">{comment.text}</p>
+                  <p className="text-xs text-farm-green-700/80">
+                    {new Date(comment.createdAt).toLocaleString()}
+                  </p>
                 </div>
               </div>
             ))}
@@ -95,14 +115,14 @@ const PostCard = ({ post, onLike, onComment, isLiked, commentText, setCommentTex
         <div className="flex gap-2 mt-2">
           <Textarea
             placeholder="Write a comment..."
-            className="resize-none"
+            className="resize-none border-slate-200 focus:border-slate-300 focus:ring-slate-200"
             value={commentText}
             onChange={(e) => setCommentText(prev => ({ ...prev, [post._id]: e.target.value }))}
           />
           <Button
             variant="outline"
             size="sm"
-            className="self-end"
+            className="self-end border-slate-200 text-farm-green-600 hover:bg-farm-green-50 hover:text-farm-green-700"
             onClick={() => onComment(commentText)}
             disabled={!commentText || !commentText.trim()}
           >
