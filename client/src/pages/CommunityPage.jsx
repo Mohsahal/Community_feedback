@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import Layout from "@/components/layout/Layout";
-import PostCard from "@/components/PostCard";
+import PostCard from "@/components/community/PostCard";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -14,35 +14,12 @@ import "react-toastify/dist/ReactToastify.css";
 import translations from "@/assets/languages/index";
 import { formatPost, handleImageChange, handlePostSubmit, handleLikePost, handleAddComment, api } from "@/controllers";
 import Footer from "@/components/layout/Footer";
+import Weather from "@/components/community/Weather";
+import UpcomingTopics from "@/components/community/UpcomingTopics";
+import UpcomingEvents from "@/components/community/UpcomingEvents";
+import SuccessStories from "@/components/community/SuccessStories";
 
-// Static Data
-const trendingTopics = [
-  { name: "Monsoon2023", posts: 342 },
-  { name: "OrganicFarming", posts: 215 },
-  { name: "DroughtResistant", posts: 189 },
-  { name: "MarketPrices", posts: 167 },
-  { name: "SoilHealth", posts: 134 },
-];
 
-const upcomingEvents = [
-  {
-    title: "Organic Farming Workshop",
-    date: "June 15, 2023",
-    location: "Virtual",
-    type: "Workshop",
-    isFree: true,
-  },
-];
-
-const successStories = [
-  {
-    name: "Raman Singh",
-    location: "Madhya Pradesh",
-    achievement: "Increased crop yield by 40% using AgroVerse recommendations",
-    image: "https://images.unsplash.com/photo-1610824352934-c10d87b700cc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
-    story: "After soil testing and following AgroVerse's personalized crop recommendations, my wheat yield increased dramatically.",
-  },
-];
 
 const CommunityPage = () => {
   const [newPost, setNewPost] = useState("");
@@ -298,140 +275,19 @@ const CommunityPage = () => {
             </Tabs>
 
             {/* Success Stories */}
-            <div className="space-y-6">
-              <h2 className="text-2xl font-bold text-farm-green-500">{t.successStories || "Success Stories"}</h2>
-              {successStories.map((story, idx) => (
-                <Card key={idx} className="border border-black/10 hover:border-black/30 transition-all duration-200 shadow-sm rounded-lg">
-                  <div className="flex flex-col sm:flex-row">
-                    <div className="sm:w-1/3">
-                      <img
-                        src={story.image}
-                        alt={story.name}
-                        className="w-full h-48 sm:h-full object-cover rounded-t-lg sm:rounded-t-none sm:rounded-l-lg"
-                      />
-                    </div>
-                    <div className="sm:w-2/3 p-6">
-                      <h3 className="text-xl font-semibold text-black/90">{story.name}</h3>
-                      <p className="text-sm text-black/70 mb-2">{story.location}</p>
-                      <Badge className="bg-black/5 text-black/80 hover:bg-black/10">
-                        {story.achievement}
-                      </Badge>
-                      <p className="mt-4 text-black/70">{story.story}</p>
-                      <Button 
-                        variant="link" 
-                        className="p-0 mt-4 h-auto text-black/80 hover:text-black hover:no-underline"
-                      >
-                        {t.readMore || "Read More"}
-                      </Button>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-            </div>
+            <SuccessStories t={t} />
           </div>
 
           {/* Right Column: Sidebar */}
           <div className="space-y-8 lg:sticky lg:top-20">
             {/* Trending Topics */}
-            <Card className="border border-black/10 hover:border-black/30 transition-all duration-200 shadow-sm rounded-lg">
-              <CardHeader className="border-b border-black/10">
-                <h3 className="text-lg font-semibold text-black/90">{t.trending || "Trending Topics"}</h3>
-              </CardHeader>
-              <CardContent className="pt-4">
-                <div className="space-y-3">
-                  {trendingTopics.map((topic, index) => (
-                    <div
-                      key={index}
-                      className="flex justify-between items-center p-3 hover:bg-black/5 rounded-md cursor-pointer transition-colors"
-                    >
-                      <p className="text-black/80 font-medium">#{topic.name}</p>
-                      <Badge variant="secondary" className="bg-black/5 text-black/80">
-                        {topic.posts} posts
-                      </Badge>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-              <CardFooter className="border-t border-black/10">
-                <Button 
-                  variant="link" 
-                  className="w-full text-black/80 hover:text-black hover:no-underline"
-                >
-                  {t.seeAll || "See All"}
-                </Button>
-              </CardFooter>
-            </Card>
+            <UpcomingTopics t={t} />
 
             {/* Upcoming Events */}
-            <Card className="border border-black/10 hover:border-black/30 transition-all duration-200 shadow-sm rounded-lg">
-              <CardHeader className="border-b border-black/10">
-                <h3 className="text-lg font-semibold text-black/90">{t.events || "Upcoming Events"}</h3>
-              </CardHeader>
-              <CardContent className="pt-4">
-                <div className="space-y-4">
-                  {upcomingEvents.map((event, idx) => (
-                    <div 
-                      key={idx} 
-                      className="p-4 border border-black/10 rounded-md hover:bg-black/5 transition-colors"
-                    >
-                      <p className="font-medium text-black/80">{event.title}</p>
-                      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-2">
-                        <p className="text-sm text-black/70">
-                          {event.date} • {event.location}
-                        </p>
-                        <div className="flex gap-2 mt-2 sm:mt-0">
-                          <Badge variant="secondary" className="bg-black/5 text-black/80">
-                            {event.type}
-                          </Badge>
-                          <Badge variant="outline" className="border border-black/10 text-black/80">
-                            {event.isFree ? "Free" : "Paid"}
-                          </Badge>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-              <CardFooter className="border-t border-black/10">
-                <Button 
-                  variant="link" 
-                  className="w-full text-black/80 hover:text-black hover:no-underline"
-                >
-                  {t.browseAll || "Browse All"}
-                </Button>
-              </CardFooter>
-            </Card>
+            <UpcomingEvents t={t} />
 
             {/* Weather */}
-            <Card className="border border-black/10 hover:border-black/30 transition-all duration-200 shadow-sm rounded-lg">
-              <CardHeader className="bg-farm-green-500 text-white">
-                <h3 className="text-lg font-semibold">Local Weather</h3>
-              </CardHeader>
-              <CardContent className="pt-6">
-                <div className="flex justify-between items-center mb-6">
-                  <div>
-                    <p className="text-3xl font-bold text-black/90">28°C</p>
-                    <p className="text-sm text-black/70">Partly Cloudy</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-medium text-black/90">Delhi</p>
-                    <p className="text-sm text-black/70">Humidity: 65%</p>
-                  </div>
-                </div>
-                <h4 className="text-sm font-medium mb-3 text-black/90">5-Day Forecast</h4>
-                <div className="grid grid-cols-5 gap-2 text-center">
-                  {["Mon", "Tue", "Wed", "Thu", "Fri"].map((day, idx) => (
-                    <div 
-                      key={idx} 
-                      className="p-2 rounded-md hover:bg-black/5 transition-colors"
-                    >
-                      <p className="text-xs text-black/70">{day}</p>
-                      <p className="font-medium text-black/90">{[28, 30, 27, 26, 29][idx]}°</p>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+            <Weather />
           </div>
         </div>
       </div>
