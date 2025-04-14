@@ -1,13 +1,26 @@
 // PostCard.jsx
-import React from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Heart, MessageCircle, Share2, MapPin, Send } from "lucide-react";
+import { Heart, MessageCircle, Share2, MapPin, Send, ChevronDown, ChevronUp } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 
 const PostCard = ({ post, onLike, onComment, isLiked, commentText, setCommentText }) => {
+  const [showComments, setShowComments] = useState(false);
+  const [showCommentInput, setShowCommentInput] = useState(false);
+
+  const handleCommentClick = () => {
+    setShowComments(!showComments);
+    setShowCommentInput(true);
+  };
+
+  const handleCommentSubmit = (text) => {
+    onComment(text);
+    setShowCommentInput(false);
+  };
+
   return (
     <Card className="overflow-hidden border-slate-200 hover:shadow-md transition-all duration-300 animate-fade-in">
       <CardHeader className="pb-3">
@@ -75,9 +88,15 @@ const PostCard = ({ post, onLike, onComment, isLiked, commentText, setCommentTex
             variant="ghost" 
             size="sm" 
             className="flex items-center gap-1 text-farm-green-700/80 hover:text-farm-green-600 transition-colors"
+            onClick={handleCommentClick}
           >
             <MessageCircle className="h-4 w-4 transition-transform hover:scale-125" /> 
             {post.comments.length}
+            {post.comments.length > 0 && (
+              <span className="ml-1">
+                {showComments ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+              </span>
+            )}
           </Button>
           <Button 
             variant="ghost" 
@@ -88,7 +107,7 @@ const PostCard = ({ post, onLike, onComment, isLiked, commentText, setCommentTex
             Share
           </Button>
         </div>
-        {post.comments.length > 0 && (
+        {showComments && post.comments.length > 0 && (
           <div className="mt-2 space-y-2">
             <h4 className="text-sm font-medium text-farm-green-600">Comments</h4>
             {post.comments.map((comment, index) => (
@@ -112,23 +131,25 @@ const PostCard = ({ post, onLike, onComment, isLiked, commentText, setCommentTex
             ))}
           </div>
         )}
-        <div className="flex gap-2 mt-2">
-          <Textarea
-            placeholder="Write a comment..."
-            className="resize-none border-slate-200 focus:border-slate-300 focus:ring-slate-200"
-            value={commentText}
-            onChange={(e) => setCommentText(prev => ({ ...prev, [post._id]: e.target.value }))}
-          />
-          <Button
-            variant="outline"
-            size="sm"
-            className="self-end border-slate-200 text-farm-green-600 hover:bg-farm-green-50 hover:text-farm-green-700"
-            onClick={() => onComment(commentText)}
-            disabled={!commentText || !commentText.trim()}
-          >
-            <Send className="h-4 w-4" />
-          </Button>
-        </div>
+        {showCommentInput && (
+          <div className="flex gap-2 mt-2">
+            <Textarea
+              placeholder="Write a comment..."
+              className="resize-none border-slate-200 focus:border-slate-300 focus:ring-slate-200"
+              value={commentText}
+              onChange={(e) => setCommentText(prev => ({ ...prev, [post._id]: e.target.value }))}
+            />
+            <Button
+              variant="outline"
+              size="sm"
+              className="self-end border-slate-200 text-farm-green-600 hover:bg-farm-green-50 hover:text-farm-green-700"
+              onClick={() => handleCommentSubmit(commentText)}
+              disabled={!commentText || !commentText.trim()}
+            >
+              <Send className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
       </CardFooter>
     </Card>
   );

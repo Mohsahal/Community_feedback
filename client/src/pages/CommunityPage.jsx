@@ -31,6 +31,7 @@ const CommunityPage = () => {
   const [commentText, setCommentText] = useState({});
   const [userId, setUserId] = useState(null);
   const [showPostCard, setShowPostCard] = useState(false);
+  const [activeTab, setActiveTab] = useState("all");
   const fileInputRef = useRef(null);
   
   const navigate = useNavigate();
@@ -132,25 +133,40 @@ const CommunityPage = () => {
           {/* Left Column: Posts and Success Stories */}
           <div className="lg:col-span-2 space-y-8">
             {/* Posts Tabs */}
-            <Tabs defaultValue="all" className="w-full">
+            <Tabs defaultValue="all" className="w-full" onValueChange={setActiveTab}>
               <TabsList className="grid grid-cols-3 w-full bg-farm-green-50 rounded-lg p-1 border border-black/10">
                 <TabsTrigger 
                   value="all" 
                   className="data-[state=active]:bg-farm-green-500 data-[state=active]:text-white rounded-md transition-all duration-200 hover:bg-black/5"
                 >
-                  {t.allPosts || "All"}
+                  <div className="flex items-center gap-2">
+                    <span>{t.allPosts || "All"}</span>
+                    <Badge variant="secondary" className="bg-black/5 text-black/80">
+                      {posts.length}
+                    </Badge>
+                  </div>
                 </TabsTrigger>
                 <TabsTrigger 
                   value="following" 
                   className="data-[state=active]:bg-farm-green-500 data-[state=active]:text-white rounded-md transition-all duration-200 hover:bg-black/5"
                 >
-                  {t.following || "Following"}
+                  <div className="flex items-center gap-2">
+                    <span>{t.following || "Following"}</span>
+                    <Badge variant="secondary" className="bg-black/5 text-black/80">
+                      {posts.filter(post => post.author._id === userId).length}
+                    </Badge>
+                  </div>
                 </TabsTrigger>
                 <TabsTrigger 
                   value="trending" 
                   className="data-[state=active]:bg-farm-green-500 data-[state=active]:text-white rounded-md transition-all duration-200 hover:bg-black/5"
                 >
-                  {t.popular || "Trending"}
+                  <div className="flex items-center gap-2">
+                    <span>{t.popular || "Trending"}</span>
+                    <Badge variant="secondary" className="bg-black/5 text-black/80">
+                      {posts.filter(post => post.likes.length > 5).length}
+                    </Badge>
+                  </div>
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="all" className="mt-4">
@@ -183,22 +199,48 @@ const CommunityPage = () => {
                 )}
               </TabsContent>
               <TabsContent value="following">
-                <Card className="border border-black/10 hover:border-black/30 transition-all duration-200 shadow-sm rounded-lg">
-                  <CardContent className="text-center py-10">
-                    <p className="text-black/60 mb-4">
-                      {t.followingPrompt || "Follow farmers to see their posts here."}
-                    </p>
-                    <Button className="bg-farm-green-500 hover:bg-farm-green-600 text-white">
-                      {t.discoverFarmers || "Discover Farmers"}
-                    </Button>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-              <TabsContent value="trending">
-                {posts.length > 0 ? (
+                {loading ? (
+                  <div className="flex justify-center items-center py-10">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-farm-green-500"></div>
+                  </div>
+                ) : posts.filter(post => post.author._id === userId).length > 0 ? (
                   <div className="space-y-6">
                     {posts
-                      .slice()
+                      .filter(post => post.author._id === userId)
+                      .map((post) => (
+                        <PostCard
+                          key={post._id}
+                          post={post}
+                          onLike={() => handlePostLike(post._id)}
+                          onComment={(text) => handleCommentAdd(post._id)}
+                          isLiked={liked[post._id]}
+                          commentText={commentText[post._id] || ""}
+                          setCommentText={setCommentText}
+                        />
+                      ))}
+                  </div>
+                ) : (
+                  <Card className="border border-black/10 hover:border-black/30 transition-all duration-200 shadow-sm rounded-lg">
+                    <CardContent className="text-center py-10">
+                      <p className="text-black/60 mb-4">
+                        {t.followingPrompt || "Follow farmers to see their posts here."}
+                      </p>
+                      <Button className="bg-farm-green-500 hover:bg-farm-green-600 text-white">
+                        {t.discoverFarmers || "Discover Farmers"}
+                      </Button>
+                    </CardContent>
+                  </Card>
+                )}
+              </TabsContent>
+              <TabsContent value="trending">
+                {loading ? (
+                  <div className="flex justify-center items-center py-10">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-farm-green-500"></div>
+                  </div>
+                ) : posts.filter(post => post.likes.length > 5).length > 0 ? (
+                  <div className="space-y-6">
+                    {posts
+                      .filter(post => post.likes.length > 5)
                       .sort((a, b) => b.likes.length - a.likes.length)
                       .map((post) => (
                         <PostCard
@@ -216,7 +258,7 @@ const CommunityPage = () => {
                   <Card className="border border-black/10 hover:border-black/30 transition-all duration-200 shadow-sm rounded-lg">
                     <CardContent className="text-center py-10">
                       <p className="text-black/60">
-                        {t.noPosts || "No trending posts yet."}
+                        {t.noTrendingPosts || "No trending posts yet."}
                       </p>
                     </CardContent>
                   </Card>
