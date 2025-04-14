@@ -11,6 +11,14 @@ export default defineConfig({
   },
   server: {
     host: true, // This enables network access
-    port: 5174
+    port: 5174,
+    proxy: {
+      '/api/weather': {
+        target: 'https://api.openweathermap.org',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/weather/, ''),
+        secure: false,
+      }
+    }
   }
 })
