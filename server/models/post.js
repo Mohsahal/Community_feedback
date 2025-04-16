@@ -14,7 +14,14 @@ const postSchema = new mongoose.Schema(
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      avatar:{
+        type:String,
+        trim:true,
+        required: true,
+        default:"https://github.com/shadcn.png"
+      }
+      
+
     },
     language: {
       type: String,
