@@ -45,8 +45,15 @@ const Header = () => {
     navigate("/login");
   };
 
+
+
+
   const handleAddAccount = () => {
     navigate('/');
+  };
+
+  const handleAddProfile = () => {
+    navigate('/ProfilePage');
   };
 
   const navLinks = [
@@ -61,22 +68,22 @@ const Header = () => {
 
   return (
     <header className={cn(
-      "sticky top-0 z-50 w-full border-b border-farm-green-100 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60",
+      "sticky top-0 z-50 w-full border-b border-farm-green-100 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 p-1 ml-2 ",
       scrolled && "shadow-sm"
     )}>
-      <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center">
+      <div className=" mx-auto max-w-12xl px-4 sm:px-6 lg:px-8">
+        <div className="flex h-16 justify-between">
           <div className="flex items-center gap-6 md:gap-10">
-            <Link to="/" className="flex items-center space-x-2">
+            <Link to="" className="flex  space-x-2 ml-10">
               <span className="font-bold text-xl text-farm-green-600">AgroVerse</span>
             </Link>
-            <nav className="hidden md:flex gap-6">
+            <nav className="hidden md:flex  p-12 gap-6  ml-12">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   to={link.path}
                   className={cn(
-                    "text-sm font-medium transition-colors hover:text-farm-green-600",
+                    "text-sm font-medium transition-colors hover:text-farm-green-600 ml-6",
                     location.pathname === link.path
                       ? "text-farm-green-600"
                       : "text-farm-green-700/80"
@@ -88,8 +95,7 @@ const Header = () => {
             </nav>
           </div>
 
-          <div className="flex-1" />
-
+          
           <div className="flex items-center">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -116,20 +122,32 @@ const Header = () => {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator className="h-px bg-farm-green-100" />
+
+                
                 <DropdownMenuItem 
-                  onClick={handleLogout} 
-                  className="p-2 text-red-600 hover:bg-red-50 cursor-pointer focus:bg-red-50 focus:text-red-700"
+                  className="p-2 text-farm-green-600 hover:bg-farm-green-50 cursor-pointer focus:bg-farm-green-50 focus:text-farm-green-700" 
+                  onClick={handleAddProfile}
                 >
-                  <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
+                  <UserPlus className="mr-2 h-4 w-4" />
+                  <span>Add a Profile</span>
                 </DropdownMenuItem>
+
 
                 <DropdownMenuItem 
                   className="p-2 text-farm-green-600 hover:bg-farm-green-50 cursor-pointer focus:bg-farm-green-50 focus:text-farm-green-700" 
                   onClick={handleAddAccount}
                 >
                   <UserPlus className="mr-2 h-4 w-4" />
-                  <span>Add an Account</span>
+                  <span>Add a Account</span>
+                </DropdownMenuItem>
+
+
+                <DropdownMenuItem 
+                  onClick={handleLogout} 
+                  className="mt-2 p-2 text-red-600 hover:bg-red-50 cursor-pointer focus:bg-red-50 focus:text-red-700"
+                >
+                  <LogOut className="mr-2 h-4 w-4" />
+                  <span>Log out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
